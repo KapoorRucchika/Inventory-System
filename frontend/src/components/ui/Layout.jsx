@@ -95,7 +95,7 @@ export default function Layout({ children }) {
       <main style={{
         flex: 1,
         padding: '32px',
-        overflowY: 'auto',
+        overflowY: 'visible',
         minHeight: '100vh'
       }}>
         {children}
