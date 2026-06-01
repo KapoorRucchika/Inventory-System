@@ -1,4 +1,5 @@
 import { Loader2 } from 'lucide-react'
+import { createPortal } from 'react-dom'
 
 export function Card({ children, style = {} }) {
   return (
@@ -111,11 +112,11 @@ export function EmptyState({ icon: Icon, title, description }) {
 
 export function Modal({ isOpen, onClose, title, children }) {
   if (!isOpen) return null
-  return (
+  return createPortal(
     <div
       onClick={(e) => e.target === e.currentTarget && onClose()}
       style={{
-        position: 'fixed', inset: 0, zIndex: 50,
+        position: 'fixed', inset: 0, zIndex: 9999,
         background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(4px)',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         padding: '24px'
@@ -145,7 +146,8 @@ export function Modal({ isOpen, onClose, title, children }) {
         </div>
         {children}
       </div>
-    </div>
+    </div>,
+    document.body
   )
 }
 
