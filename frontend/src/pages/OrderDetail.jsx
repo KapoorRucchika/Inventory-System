@@ -77,7 +77,7 @@ export default function OrderDetail() {
               fontFamily: 'var(--font-display)', fontWeight: 800,
               fontSize: '20px', color: 'var(--green)'
             }}>
-              ${parseFloat(order.total_amount).toFixed(2)}
+              ₹{parseFloat(order.total_amount).toFixed(2)}
             </span>
           </div>
         </Card>
@@ -110,10 +110,10 @@ export default function OrderDetail() {
                     </code>
                   )}
                 </td>
-                <td style={{ color: 'var(--text-muted)' }}>${parseFloat(item.unit_price).toFixed(2)}</td>
+                <td style={{ color: 'var(--text-muted)' }}>₹{parseFloat(item.unit_price).toFixed(2)}</td>
                 <td>× {item.quantity}</td>
                 <td style={{ textAlign: 'right', fontWeight: 700, color: 'var(--green)' }}>
-                  ${(parseFloat(item.unit_price) * item.quantity).toFixed(2)}
+                  ₹{(parseFloat(item.unit_price) * item.quantity).toFixed(2)}
                 </td>
               </tr>
             ))}
@@ -128,7 +128,7 @@ export default function OrderDetail() {
             fontFamily: 'var(--font-display)', fontWeight: 800,
             fontSize: '24px', color: 'var(--green)'
           }}>
-            ${parseFloat(order.total_amount).toFixed(2)}
+            ₹{parseFloat(order.total_amount).toFixed(2)}
           </span>
         </div>
       </Card>

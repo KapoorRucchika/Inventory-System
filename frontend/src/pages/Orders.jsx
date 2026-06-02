@@ -122,7 +122,7 @@ export default function Orders() {
                   </td>
                   <td style={{ fontWeight: 500 }}>{o.customer?.full_name || '—'}</td>
                   <td style={{ color: 'var(--text-muted)' }}>{o.items?.length ?? 0} item{o.items?.length !== 1 ? 's' : ''}</td>
-                  <td style={{ fontWeight: 700, color: 'var(--green)' }}>${parseFloat(o.total_amount).toFixed(2)}</td>
+                  <td style={{ fontWeight: 700, color: 'var(--green)' }}>₹{parseFloat(o.total_amount).toFixed(2)}</td>
                   <td><Badge variant="accent">{o.status}</Badge></td>
                   <td style={{ color: 'var(--text-muted)', fontSize: '13px' }}>
                     {o.created_at ? new Date(o.created_at).toLocaleDateString() : '—'}
@@ -176,7 +176,7 @@ export default function Orders() {
                   <option value="">Select product…</option>
                   {products.map(p => (
                     <option key={p.id} value={p.id}>
-                      {p.name} — ${parseFloat(p.price).toFixed(2)} (stock: {p.quantity})
+                      {p.name} — ₹{parseFloat(p.price).toFixed(2)} (stock: {p.quantity})
                     </option>
                   ))}
                 </select>
@@ -216,7 +216,7 @@ export default function Orders() {
         }}>
           <span style={{ fontSize: '14px', color: 'var(--text-muted)' }}>Estimated Total</span>
           <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '18px', color: 'var(--green)' }}>
-            ${calcTotal().toFixed(2)}
+            ₹{calcTotal().toFixed(2)}
           </span>
         </div>
 

@@ -125,7 +125,7 @@ export default function Products() {
                 <tr key={p.id}>
                   <td style={{ fontWeight: 600 }}>{p.name}</td>
                   <td><code style={{ fontSize: '13px', background: 'var(--bg-elevated)', padding: '2px 6px', borderRadius: '4px', color: 'var(--text-muted)' }}>{p.sku}</code></td>
-                  <td style={{ fontWeight: 600, color: 'var(--green)' }}>${parseFloat(p.price).toFixed(2)}</td>
+                  <td style={{ fontWeight: 600, color: 'var(--green)' }}>₹{parseFloat(p.price).toFixed(2)}</td>
                   <td>{stockBadge(p.quantity)}</td>
                   <td style={{ color: 'var(--text-muted)', fontSize: '13px', maxWidth: '200px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                     {p.description || '—'}
@@ -147,29 +147,67 @@ export default function Products() {
         )}
       </Card>
 
-      <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)} title={editProduct ? 'Edit Product' : 'New Product'}>
-        <FormField label="Product Name" error={errors.name} required>
-          <input value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} placeholder="e.g. Wireless Keyboard" />
-        </FormField>
-        <FormField label="SKU / Code" error={errors.sku} required>
-          <input value={form.sku} onChange={e => setForm(f => ({ ...f, sku: e.target.value }))} placeholder="e.g. WK-001" />
-        </FormField>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
-          <FormField label="Price ($)" error={errors.price} required>
-            <input type="number" min="0.01" step="0.01" value={form.price} onChange={e => setForm(f => ({ ...f, price: e.target.value }))} placeholder="0.00" />
-          </FormField>
-          <FormField label="Quantity" error={errors.quantity} required>
-            <input type="number" min="0" step="1" value={form.quantity} onChange={e => setForm(f => ({ ...f, quantity: e.target.value }))} placeholder="0" />
-          </FormField>
+      {/* Modal with fixed positioning */}
+      {modalOpen && (
+        <div
+          onClick={(e) => e.target === e.currentTarget && setModalOpen(false)}
+          style={{
+            position: 'fixed', inset: 0, zIndex: 50,
+            background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(4px)',
+            display: 'flex', alignItems: 'flex-start', justifyContent: 'center',
+            padding: '40px 24px',
+            overflowY: 'auto'
+          }}
+        >
+          <div style={{
+            background: 'var(--bg-card)',
+            border: '1px solid var(--border)',
+            borderRadius: 'var(--radius-lg)',
+            padding: '28px',
+            width: '100%', maxWidth: '520px',
+            margin: 'auto',
+            animation: 'fadeIn 0.2s ease',
+            boxShadow: 'var(--shadow)'
+          }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
+              <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '20px', fontWeight: 700 }}>
+                {editProduct ? 'Edit Product' : 'New Product'}
+              </h2>
+              <button
+                onClick={() => setModalOpen(false)}
+                style={{
+                  background: 'var(--bg-elevated)', border: '1px solid var(--border)',
+                  color: 'var(--text-muted)', width: 32, height: 32,
+                  borderRadius: '8px', display: 'flex', alignItems: 'center',
+                  justifyContent: 'center', cursor: 'pointer', fontSize: '16px'
+                }}
+              >×</button>
+            </div>
+
+            <FormField label="Product Name" error={errors.name} required>
+              <input value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} placeholder="e.g. Wireless Keyboard" />
+            </FormField>
+            <FormField label="SKU / Code" error={errors.sku} required>
+              <input value={form.sku} onChange={e => setForm(f => ({ ...f, sku: e.target.value }))} placeholder="e.g. WK-001" />
+            </FormField>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+              <FormField label="Price (₹)" error={errors.price} required>
+                <input type="number" min="0.01" step="0.01" value={form.price} onChange={e => setForm(f => ({ ...f, price: e.target.value }))} placeholder="0.00" />
+              </FormField>
+              <FormField label="Quantity" error={errors.quantity} required>
+                <input type="number" min="0" step="1" value={form.quantity} onChange={e => setForm(f => ({ ...f, quantity: e.target.value }))} placeholder="0" />
+              </FormField>
+            </div>
+            <FormField label="Description">
+              <textarea value={form.description} onChange={e => setForm(f => ({ ...f, description: e.target.value }))} placeholder="Optional description..." rows={3} />
+            </FormField>
+            <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end', marginTop: '8px' }}>
+              <Button variant="secondary" onClick={() => setModalOpen(false)}>Cancel</Button>
+              <Button loading={saving} onClick={handleSubmit}>{editProduct ? 'Save Changes' : 'Create Product'}</Button>
+            </div>
+          </div>
         </div>
-        <FormField label="Description">
-          <textarea value={form.description} onChange={e => setForm(f => ({ ...f, description: e.target.value }))} placeholder="Optional description..." rows={3} />
-        </FormField>
-        <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end', marginTop: '8px' }}>
-          <Button variant="secondary" onClick={() => setModalOpen(false)}>Cancel</Button>
-          <Button loading={saving} onClick={handleSubmit}>{editProduct ? 'Save Changes' : 'Create Product'}</Button>
-        </div>
-      </Modal>
+      )}
     </div>
   )
 }

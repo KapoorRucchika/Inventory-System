@@ -68,7 +68,7 @@ export default function Dashboard() {
                 <tr key={product.id}>
                   <td style={{ fontWeight: 500 }}>{product.name}</td>
                   <td style={{ fontFamily: 'monospace', fontSize: '13px', color: 'var(--text-muted)' }}>{product.sku}</td>
-                  <td>${parseFloat(product.price).toFixed(2)}</td>
+                  <td>₹{parseFloat(product.price).toFixed(2)}</td>
                   <td>
                     <span style={{ fontWeight: 700, color: product.quantity === 0 ? 'var(--red)' : 'var(--amber)' }}>
                       {product.quantity}
